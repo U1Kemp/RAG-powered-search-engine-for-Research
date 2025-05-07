@@ -261,7 +261,7 @@ def stream_response(user_input):
         start = time()
         if chat_state["use_wikipedia"]:
             yield "event: status\ndata: Fetching Wikipedia content...\n\n"
-            wiki_content = asyncio.run(fetch_wikipedia_content(queries=chat_state["key_phrases"], num_results=20))
+            wiki_content = asyncio.run(fetch_wikipedia_content(queries=chat_state["key_phrases"], num_results=20, chunk_size=256))
             yield "event: status\ndata: Wikipedia content fetched in {:.2f} seconds.\n\n".format(time() - start)
 
         arxiv_content = []
@@ -297,7 +297,7 @@ def stream_response(user_input):
             if chat_state["fetch_most_recent"]:
                 all_docs.extend(asyncio.run(fetch_arxiv_papers(subject=chat_state["arxiv_subject"], subtopic=chat_state["arxiv_subtopic"], queries=new_keywords, max_results=50, priority="submitted")))
             if chat_state["use_wikipedia"]:
-                all_docs.extend(asyncio.run(fetch_wikipedia_content(new_keywords, num_results=20, chunk_size=512, overlap=64)))
+                all_docs.extend(asyncio.run(fetch_wikipedia_content(new_keywords, num_results=20, chunk_size=256, overlap=64)))
             if all_docs != []:
                 asyncio.run(store_content(COLLECTION_PREFIX, session_id, documents=all_docs, batch_size=256))
             chat_state["key_phrases"].extend([kw for kw in new_keywords if kw not in chat_state["key_phrases"]])
@@ -354,8 +354,8 @@ def stream_response(user_input):
         seed=None,
         stream=True,
         temperature=0.2,
-        top_k=40,
-        top_p=0.95,
+        top_k=35,
+        top_p=0.75,
         repeat_penalty=15
     ):
         token_text = response["choices"][0]["text"].replace("\n\n", "<br><br>").replace("\n", "<br>")
