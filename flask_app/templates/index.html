@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>RAG-Powered Chatbot for Research Queries</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<div id="chat-container">
+    <h2>RAG-Powered Chatbot for Research Queries</h2>
+    <div id="config">
+        <label for="topics">Topics (comma separated):</label>
+        <input type="text" id="topics" placeholder="e.g., diffusion models, reinforcement learning, bayesian inference" value="" style="width: 96.25%;">
+        
+        <input type="checkbox" id="use_wikipedia" checked> Use Wikipedia for context
+        
+        <label>ArXiv Fetch Options for context</label>
+        <input type="checkbox" id="fetch_most_relevant" checked> Fetch Most Relevant
+        <input type="checkbox" id="fetch_most_recent"> Fetch Most Recent
+        
+        <label for="arxiv_subject">Subject Area</label>
+        <select id="arxiv_subject">
+            <option value="">All Subjects</option>
+            {% for subject in subjects %}
+            <option value="{{ subject }}">{{ subject }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="arxiv_subtopic">Subtopic</label>
+        <select id="arxiv_subtopic" disabled>
+            <option value="">Select Subject First</option>
+        </select>
+    
+    <label>Upload Files for Context:</label>
+    <div id="file-upload-section">
+        <input type="file" id="file-upload" multiple accept=".pdf,.txt" style="margin-bottom: 10px;">
+        <button id="upload-files" type="button">Upload Files</button>
+        <div id="upload-status" style="margin-top: 10px; color: #bbbbbb;"></div>
+        <div id="uploaded-files" style="margin-top: 10px;"></div>
+    </div>
+        <button id="set-config">Set Configuration</button>
+        <button id="reset-btn" type="button" style="background-color: #d9534f; margin-left: 10px;">
+        Reset
+        </button>
+    </div>
+
+
+    <div id="messages"></div>
+
+    <div>
+    <form id="chat-form">
+        <input type="text" id="prompt" autocomplete="off" placeholder="Type your message..." required>
+        <button type="submit">Send</button>
+    </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
