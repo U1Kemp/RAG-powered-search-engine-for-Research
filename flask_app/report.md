@@ -96,9 +96,9 @@ While everything is reasonably optimized, the nature of RAG systems — especial
 
 The code is modular and extensible:
 
-- `app2.py` and `app3.py` handles routing, SSE-based streaming, and query dispatch.
+- `app2.py` and `app.py` handles routing, SSE-based streaming, and query dispatch.
 - `app2.py` uses phi-3-mini and runs locally.
-- `app3.py` uses GOOGLE GEMINI API to access gemini-2.0-flash.
+- `app.py` uses GOOGLE GEMINI API to access gemini-2.0-flash.
 - `Helper4.py` contains the core logic for chunking, embedding, storing and retrieving from Qdrant.
 - Async routines are used throughout to make the app responsive, especially during content fetching and vector operations.
 - `test.py` contains unit tests for the core logic of various helper functions.
