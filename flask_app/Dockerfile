@@ -15,8 +15,7 @@ COPY . .
 # RUN wget https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf/resolve/main/Phi-3-mini-4k-instruct-q4.gguf
 
 # Install Python dependencies
-ENV PIP_NO_REQUIRE_HASHES=1
-RUN python -m pip install --no-cache-dir --disable-pip-version-check --trusted-host pypi.org --trusted-host files.pythonhosted.org -r requirements.txt
+RUN python -m pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
 
